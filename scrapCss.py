@@ -12,10 +12,11 @@ class ScrapCss:
 
     def scrap_css(self):
         try:
-            # Set up Chrome WebDriver
+            # Set up Chrome WebDriver with the correct executable path
             chrome_options = Options()
             chrome_options.add_argument("--headless")  # Run Chrome in headless mode (no visible browser window)
-            driver = webdriver.Chrome(options=chrome_options)
+            chrome_driver_path = 'chromedriver_linux64\chromedriver'  # Replace with the absolute path of the ChromeDriver executable
+            driver = webdriver.Chrome(executable_path=chrome_driver_path, options=chrome_options)
 
             # Send an HTTP GET request to the webpage
             response = requests.get(self.link)
