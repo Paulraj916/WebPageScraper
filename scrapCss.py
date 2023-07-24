@@ -5,6 +5,7 @@ from urllib.parse import urljoin
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 import cssbeautifier
+from webdriver_manager.chrome import ChromeDriverManager 
 
 class ScrapCss:
     def __init__(self, link):
@@ -16,11 +17,8 @@ class ScrapCss:
             chrome_options = Options()
             chrome_options.add_argument("--headless")  # Run Chrome in headless mode (no visible browser window)
             
-            # Specify the path to ChromeDriver
-            chrome_driver_path = '/home/appuser/.cache/selenium/chromedriver/linux64/114.0.5735.90/chromedriver'  # Replace with the actual path to ChromeDriver
-            
-            # Create a WebDriver instance
-            driver = webdriver.Chrome(options=chrome_options, executable_path=chrome_driver_path)
+            # Create a WebDriver instance with ChromeDriverManager
+            driver = webdriver.Chrome(ChromeDriverManager().install(), options=chrome_options)
 
             # Send an HTTP GET request to the webpage
             response = requests.get(self.link)
