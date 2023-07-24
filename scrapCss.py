@@ -17,11 +17,8 @@ class ScrapCss:
             chrome_options = Options()
             chrome_options.add_argument("--headless")  # Run Chrome in headless mode (no visible browser window)
             
-            # Specify the Chrome version for ChromeDriverManager
-            chrome_version = "114.0.5735.90"  # Replace with the actual version of Chrome installed on your system
-            
-            # Create a WebDriver instance with ChromeDriverManager
-            driver = webdriver.Chrome(ChromeDriverManager(version=chrome_version).install(), options=chrome_options)
+            driver = webdriver.Chrome(ChromeDriverManager().install(), options=chrome_options)
+
 
             # Send an HTTP GET request to the webpage
             response = requests.get(self.link)
