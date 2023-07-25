@@ -12,6 +12,7 @@ from addVideo import AddVideo
 from scrapImg import ScrapImages
 from addImg import AddImages
 from scrapHtml import ScrapHtml
+from scrapScss import ScrapScss
 import shutil
 from zipfile import ZipFile
 
@@ -39,6 +40,10 @@ def main():
         # Scrape HTML Files
         scraper_html = ScrapHtml(link)
         scraper_html.scrape_html_files()
+
+        # Scrape SCSS
+        scraper_scss = ScrapScss(link)
+        scraper_scss.scrap_scss()
 
         # Scrape TypeScript
         scraper_ts = ScrapTs(link)
@@ -84,6 +89,8 @@ def main():
         add_images.add_absolute_image_urls()
 
         st.success("Scraping completed successfully!")
+
+        st.text("Creating zip file....(This may take time based on the content in webpage)")
 
         # Create a zip file containing the output folder and its contents
         output_zip = os.path.join(output, "output")
