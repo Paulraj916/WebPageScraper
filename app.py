@@ -15,6 +15,7 @@ from scrapHtml import ScrapHtml
 from scrapScss import ScrapScss
 import shutil
 from zipfile import ZipFile
+from io import BytesIO
 
 def main():
     st.title("Web Page Scraper")
@@ -92,16 +93,17 @@ def main():
 
         st.text("Creating zip file....(This may take time based on the content in webpage)")
 
-        # Create a zip file containing the output folder and its contents
-        output_zip = os.path.join(output, "output")
-        shutil.make_archive(output_zip, 'zip', output)
+        # Create a zip file containing the output folder and its contents in memory
+        buffer = BytesIO()
+        with ZipFile(buffer, 'w') as zipf:
+            for root, _, files in os.walk(output):
+                for file in files:
+                    file_path = os.path.join(root, file)
+                    arcname = os.path.relpath(file_path, output)
+                    zipf.write(file_path, arcname=arcname)
 
         # Provide a download link for the zip file with the correct file name and type
-        with open(output_zip + ".zip", "rb") as file:
-            st.download_button("Download Output Folder", file, file_name="output.zip", mime="application/zip")
-
-        # Remove the temporary output folder
-        shutil.rmtree(output)
+        st.download_button("Download Output Folder", buffer.getvalue(), file_name="output.zip", mime="application/zip")
 
 if __name__ == "__main__":
     main()
