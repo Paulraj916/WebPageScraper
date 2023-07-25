@@ -105,5 +105,8 @@ def main():
         # Provide a download link for the zip file with the correct file name and type
         st.download_button("Download Output Folder", buffer.getvalue(), file_name="output.zip", mime="application/zip")
 
+        # Remove the temporary output folder
+        shutil.rmtree(output)
+
 if __name__ == "__main__":
     main()
