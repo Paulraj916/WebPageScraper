@@ -2,10 +2,7 @@ import os
 import requests
 from bs4 import BeautifulSoup, Tag
 from urllib.parse import urljoin
-from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
 import cssbeautifier
-from webdriver_manager.chrome import ChromeDriverManager 
 
 class ScrapCss:
     def __init__(self, link):
@@ -13,13 +10,6 @@ class ScrapCss:
 
     def scrap_css(self):
         try:
-            # Set up Chrome WebDriver
-            chrome_options = Options()
-            chrome_options.add_argument("--headless")  # Run Chrome in headless mode (no visible browser window)
-            
-            driver = webdriver.Chrome(ChromeDriverManager().install(), options=chrome_options)
-
-
             # Send an HTTP GET request to the webpage
             response = requests.get(self.link)
             response.raise_for_status()
@@ -31,9 +21,6 @@ class ScrapCss:
             base_url = response.url
             soup = BeautifulSoup(html_content, 'html.parser')
             css_urls = [urljoin(base_url, link['href']) for link in soup.find_all('link', rel='stylesheet')]
-
-            # Quit the driver
-            driver.quit()
 
             # Create an "output" folder if it doesn't exist
             output_path = "output"
@@ -64,4 +51,3 @@ class ScrapCss:
             print("CSS files downloaded and saved successfully.")
         except requests.exceptions.RequestException as e:
             print(f"Failed to fetch content from {self.link}: {e}")
-
